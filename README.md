@@ -22,7 +22,7 @@ pip install -r requirements.txt
 
 
 ##  📁 Estrutura do Projeto
-
+```plaintext
 rpa_project_o_actions/
 ├── src/
 │   ├── __init__.py
@@ -44,7 +44,7 @@ rpa_project_o_actions/
 ├── requirements.txt
 └── README.md
 
-
+````
 src/: Contém a lógica de automação e as definições das páginas.
 
 tests/: Contém os testes automatizados.
