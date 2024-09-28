@@ -11,7 +11,7 @@ from .base_page import BasePage
 from selenium.webdriver.common.by import By
 
 class DashboardPage(BasePage):
-    REGISTRATION_LINK = (By.ID, 'registration')
+    REGISTRATION_LINK = (By.XPATH, '//*[@id="loginPanel"]/p[2]/a')
 
     def navigate_to_registration(self):
         """
