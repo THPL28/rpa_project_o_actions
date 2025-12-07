@@ -165,10 +165,7 @@ rpa_project_o_actions/
 │   │   ├── wait_utils.py
 │   │   ├── screenshot_utils.py
 ├── tests/
-│   ├── __init__.py
-│   ├── test_login_and_registration.py
-├── requirements.txt
-└── README.md
+│   ├── __
 
 ````
 src/: Contém a lógica de automação e as definições das páginas.
