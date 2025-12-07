@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # RPA Project with Selenium and Event-Driven Architecture
 
 ## 📚 Introdução
