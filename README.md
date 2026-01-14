@@ -1,78 +1,119 @@
 # O-Actions RPA Framework 🤖✨
 
-**O-Actions** é um framework de automação de processos robóticos (RPA) moderno e de alta performance, construído sobre o Selenium, projetado para ser intuitivo, robusto e fácil de manter.
+[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Framework: O-Actions](https://img.shields.io/badge/Framework-O--Actions-orange.svg)](#)
+[![Automation: Selenium](https://img.shields.io/badge/Automation-Selenium-green.svg)](https://www.selenium.dev/)
 
-## 🚀 Principais Recursos
+**O-Actions** é um framework de automação de processos robóticos (RPA) de próxima geração. Projetado para transformar scripts complexos de Selenium em fluxos de trabalho legíveis, robustos e fáceis de manter.
 
-- **ActionBot Engine**: Comando simplificados e intuitivos (ex: `bot.click("id:login")`).
-- **Smart Locators**: Suporte a seletores inteligentes via strings (ID, Name, XPath, CSS, Text).
-- **Auto-Wait**: Gerenciamento automático de espera sincronizada para evitar "flaky tests".
-- **Logging de Elite**: Integração total com `loguru` para rastreamento visual e em arquivo.
-- **Reporting Visual**: Geração de relatórios HTML detalhados com screenshots integrados.
-- **Page Object Pattern**: Implementação otimizada para máxima reutilização de código.
+---
 
-## 🛠️ Instalação
+## 🏗️ Arquitetura do Sistema
 
-Certifique-se de ter o Python 3.8+ instalado.
+O framework utiliza o padrão Page Object (POM) desacoplado da engine de automação, permitindo uma manutenção simplificada e alta escalabilidade.
+
+```mermaid
+graph TD
+    A[App Entry Point / main.py] --> B[Pytest Engine]
+    B --> C[Pages / Page Objects]
+    C --> D[ActionBot Core]
+    D --> E[Selenium WebDriver]
+    D --> F[Logger / Loguru]
+    D --> G[Reporter / HTML]
+    D --> H[Screenshot Engine]
+```
+
+---
+
+## 🚀 Diferenciais de Elite
+
+| Recurso | Descrição | Vantagem |
+| :--- | :--- | :--- |
+| **Smart Locators** | Strings intuitivas como `id:login` ou `xpath://*` | Reduz boilerplate e aumenta legibilidade |
+| **Auto-Wait Engine** | Gerenciamento de espera implícita e explícita | Elimina erros de sincronismo (Flaky Tests) |
+| **Fluent Syntax** | Métodos encadeados e semânticos | Escrita de scripts 3x mais rápida |
+| **Enhanced Logging** | Logs coloridos e rotativos via Loguru | Depuração profissional e auditoria completa |
+| **Visual Reporting** | Relatórios HTML com screenshots embutidos | Visibilidade clara para stakeholders |
+
+---
+
+## 🛠️ Instalação Rápida
 
 ```bash
-# Clone o repositório
-git clone https://github.com/seu-usuario/rpa_project_o_actions.git
+# 1. Clone o repositório
+git clone https://github.com/THPL28/rpa_project_o_actions.git
+cd rpa_project_o_actions
 
-# Crie um ambiente virtual
+# 2. Configure o ambiente virtual
 python -m venv venv
-source venv/bin/activate  # Ou: venv\Scripts\activate no Windows
+./venv/Scripts/activate  # Windows
 
-# Instale as dependências
+# 3. Instale as dependências
 pip install -r requirements.txt
 ```
 
-## ⚙️ Configuração
+---
 
-Crie um arquivo `.env` na raiz do projeto:
+## ⚙️ Configuração (Environment)
 
-```env
+O framework utiliza variáveis de ambiente para fácil alternância entre contextos (Dev/Prod).
+
+Crie um arquivo `.env` na raiz:
+```properties
 DEBUG=true
 HEADLESS=false
 DEFAULT_TIMEOUT=15
 ```
 
-## 📋 Como Usar
+---
 
-### Executando a Suite Completa
-Para rodar todos os testes e gerar o relatório HTML:
+## 📋 Demonstração de Uso
 
+### Execução de Testes & RPA
+Execute o motor principal para rodar a suite completa e gerar o report:
 ```bash
 python app/main.py
 ```
 
-O relatório será gerado em `reports/report.html`.
-
-### Exemplo de Automação Rápida
-Veja como a sintaxe é limpa:
-
+### Exemplo de Código (Sintaxe O-Actions)
 ```python
 from src.core.bot import ActionBot
 
-bot = ActionBot()
-bot.open("https://www.google.com")
-bot.type("name:q", "O-Actions RPA")
-bot.screenshot("google_search")
-bot.quit()
+# Inicialização elegante
+with ActionBot(headless=True) as bot:
+    bot.open("https://parabank.parasoft.com")
+    
+    # Interação simplificada com Smart Locators
+    bot.type("name:username", "john_doe")
+    bot.type("name:password", "secret123")
+    bot.click("class:button")
+    
+    # Validação e Feedback visual
+    bot.screenshot("dashboard_check")
 ```
 
-## 📁 Estrutura do Projeto
+---
 
-- `src/core/`: O coração do framework (ActionBot e Logger).
-- `src/page_objects/`: Definições de telas e componentes.
-- `src/utils/`: Utilitários de reporte e capturas.
-- `app/`: Ponto de entrada da aplicação.
-- `tests/`: Suite de testes automatizados.
-- `examples/`: Exemplos práticos de uso do framework.
+## 📁 Organização Modular
 
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para detalhes.
+- 📂 `src/core/`: Engine central (`ActionBot`, `Logger`).
+- 📂 `src/page_objects/`: Modelagem semântica das telas.
+- 📂 `src/utils/`: Geradores de relatórios e captura de arquivos.
+- 📂 `app/`: Orquestrador e CLI do framework.
+- 📂 `tests/`: Suite de testes de regressão e fumaça.
+- 📂 `logs/`: Logs de auditoria persistidos.
+- 📂 `reports/`: Relatórios visuais gerados.
 
 ---
-Desenvolvido por [Seu Nome/Empresa]
+
+## 🛡️ Contribuição & Licença
+
+Contribuições são bem-vindas! Sinta-se à vontade para abrir Issues ou Pull Requests.
+
+Distribuído sob a licença MIT. Veja `LICENSE` para mais informações.
+
+---
+<p align="center">
+  Desenvolvido com ❤️ para a comunidade de automação por <b>THPL</b>
+</p>
