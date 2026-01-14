@@ -1,13 +1,15 @@
-"""
-Configurações do projeto.
-
-Este módulo define as configurações globais do projeto, como o modo de depuração.
-
-Variáveis:
-    DEBUG (bool): Indica se o modo de depuração está ativado.
-"""
 import os
+from dotenv import load_dotenv
 
+# Carrega variáveis de ambiente do arquivo .env
+load_dotenv()
 
 DEBUG = os.getenv('DEBUG', 'false').lower() == 'true'
-# DEBUG = True
+HEADLESS = os.getenv('HEADLESS', 'false').lower() == 'true'
+DEFAULT_TIMEOUT = int(os.getenv('DEFAULT_TIMEOUT', 10))
+
+# Definições de caminhos
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+LOGS_DIR = os.path.join(BASE_DIR, "logs")
+REPORTS_DIR = os.path.join(BASE_DIR, "reports")
+SCREENSHOTS_DIR = os.path.join(BASE_DIR, "screenshots")

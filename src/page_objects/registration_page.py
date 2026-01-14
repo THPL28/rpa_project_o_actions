@@ -7,55 +7,34 @@ Classes:
     RegistrationPage: Página de registro.
 """
 
-from src.page_objects.base_page import BasePage
-from selenium.webdriver.common.by import By
+from .base_page import BasePage
 
 class RegistrationPage(BasePage):
-    FIRSTNAME =	(By.ID,'customer.firstName')
-    LASTNAME  =	(By.ID,'customer.lastName')
-    ADRESS    =	(By.ID,'customer.address.street')
-    CITY      =	(By.ID,'customer.address.city')
-    STATE     =	(By.ID,'customer.address.state')
-    ZYPCODE   =	(By.ID,'customer.address.zipCode')
-    PHONE     =	(By.ID,'customer.phoneNumber')
-    SSN       =	(By.ID,'customer.ssn')
-    USERNAME  =	(By.ID,'customer.username')
-    PASSWORD  =	(By.ID,'customer.password')
-    CONFIRM   =(By.ID,'repeatedPassword')
-    REGISTER_BUTTON  = (By.XPATH, "//input[@value='Register']")
+    FIRSTNAME = "id:customer.firstName"
+    LASTNAME  = "id:customer.lastName"
+    ADDRESS   = "id:customer.address.street"
+    CITY      = "id:customer.address.city"
+    STATE     = "id:customer.address.state"
+    ZIPCODE   = "id:customer.address.zipCode"
+    PHONE     = "id:customer.phoneNumber"
+    SSN       = "id:customer.ssn"
+    USERNAME  = "id:customer.username"
+    PASSWORD  = "id:customer.password"
+    CONFIRM   = "id:repeatedPassword"
+    REGISTER_BUTTON = "xpath://input[@value='Register']"
 
-    def register(self, firstname, lastname, address, city, state, zypcode, phone,ssn,user, password,confirm):
-        """
-        Realiza o registro de um novo usuário.
-
-        Args:
-            firstname (str): O primeiro nome.
-            lastname (str): O sobrenome.
-            address (str): O endereço.
-            city (str): A cidade.
-            state (str): O estado.
-            zypcode (str): O código postal.
-            phone (str): O número de telefone.
-            ssn (str): O número de seguro social.
-            user (str): O Usuário.
-            password (str): A senha.
-            confirm (str): A confirmaçao da senha.
-
-        Returns:
-            None
-        """
-  
-
-        self.enter_text(self.FIRSTNAME, firstname)
-        self.enter_text(self.LASTNAME, lastname)
-        self.enter_text(self.ADRESS, address)
-        self.enter_text(self.CITY, city)
-        self.enter_text(self.STATE, state)
-        self.enter_text(self.ZYPCODE, zypcode)
-        self.enter_text(self.PHONE, phone)
-        self.enter_text(self.SSN, ssn)
-        self.enter_text(self.USERNAME, user)
-        self.enter_text(self.PASSWORD, password)
-        self.enter_text(self.CONFIRM, confirm)
+    def register(self, data):
+        """Realiza o registro de um novo usuário usando um dicionário de dados."""
+        self.enter_text(self.FIRSTNAME, data['firstname'])
+        self.enter_text(self.LASTNAME, data['lastname'])
+        self.enter_text(self.ADDRESS, data['address'])
+        self.enter_text(self.CITY, data['city'])
+        self.enter_text(self.STATE, data['state'])
+        self.enter_text(self.ZIPCODE, data['zipcode'])
+        self.enter_text(self.PHONE, data['phone'])
+        self.enter_text(self.SSN, data['ssn'])
+        self.enter_text(self.USERNAME, data['username'])
+        self.enter_text(self.PASSWORD, data['password'])
+        self.enter_text(self.CONFIRM, data['confirm'])
         self.click(self.REGISTER_BUTTON)
 

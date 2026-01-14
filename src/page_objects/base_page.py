@@ -1,84 +1,30 @@
-"""
-BasePage para interações comuns com páginas da web.
-
-Esta classe define métodos comuns para interação com elementos da página,
-como clicar, entrar texto e esperar elementos.
-
-Classes:
-    BasePage: Classe base para todas as páginas.
-"""
-
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from ..core.bot import ActionBot
+from ..core.logger import log
 
 class BasePage:
-    def __init__(self, driver):
+    def __init__(self, bot: ActionBot):
         """
-        Inicializa a BasePage com o driver do Selenium.
-
-        Args:
-            driver (WebDriver): O driver do Selenium WebDriver.
+        Inicializa a BasePage com o ActionBot.
         """
-        self.driver = driver
+        self.bot = bot
+        self.driver = bot.driver # Mantido para compatibilidade se necessário
 
     def enter_text(self, locator, text):
-        """
-        Insere texto em um campo de entrada.
-
-        Args:
-            locator (tuple): Um localizador de elemento (By, value).
-            text (str): O texto a ser inserido.
-        """
-        element = self.wait_for_element(locator)
-        element.clear()
-        element.send_keys(text)
+        """Insere texto em um campo."""
+        self.bot.type(locator, text)
 
     def click(self, locator):
-        """
-        Clica em um elemento.
+        """Clica em um elemento."""
+        self.bot.click(locator)
 
-        Args:
-            locator (tuple): Um localizador de elemento (By, value).
-        """
-        element = self.wait_for_element(locator)
-        element.click()
-
-    def wait_for_element(self, locator, timeout=10):
-        """
-        Espera até que um elemento esteja presente na página.
-
-        Args:
-            locator (tuple): Um localizador de elemento (By, value).
-            timeout (int): O tempo máximo de espera em segundos.
-
-        Returns:
-            WebElement: O elemento encontrado.
-        """
-        return WebDriverWait(self.driver, timeout).until(
-            EC.presence_of_element_located(locator)
-        )
-
-    def get_element(self, locator):
-        """
-        Obtém um elemento presente na página.
-
-        Args:
-            locator (tuple): Um localizador de elemento (By, value).
-
-        Returns:
-            WebElement: O elemento encontrado.
-        """
-        return self.wait_for_element(locator)
+    def wait_for_element(self, locator, timeout=None):
+        """Espera por um elemento."""
+        return self.bot.find(locator, timeout=timeout)
 
     def get_text(self, locator):
-        """
-        Obtém o texto de um elemento.
-
-        Args:
-            locator (tuple): Um localizador de elemento (By, value).
-
-        Returns:
-            str: O texto do elemento.
-        """
-        element = self.wait_for_element(locator)
-        return element.text
+        """Retorna o texto de um elemento."""
+        return self.bot.get_text(locator)
+    
+    def screenshot(self, prefix="page"):
+        """Captura uma screenshot."""
+        self.bot.screenshot(prefix)

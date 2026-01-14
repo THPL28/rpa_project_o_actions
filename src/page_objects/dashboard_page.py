@@ -8,13 +8,10 @@ Classes:
 """
 
 from .base_page import BasePage
-from selenium.webdriver.common.by import By
 
 class DashboardPage(BasePage):
-    REGISTRATION_LINK = (By.XPATH, '//*[@id="loginPanel"]/p[2]/a')
+    REGISTRATION_LINK = "xpath://*[@id='loginPanel']/p[2]/a"
 
     def navigate_to_registration(self):
-        """
-        Navega para a página de registro.
-        """
+        """Navega para a página de registro."""
         self.click(self.REGISTRATION_LINK)

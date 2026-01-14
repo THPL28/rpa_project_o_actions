@@ -8,22 +8,18 @@ Classes:
 """
 
 from .base_page import BasePage
-from selenium.webdriver.common.by import By
 from tests.dados import DATA
 
 class LoginPage(BasePage):
-    USERNAME_INPUT = (By.XPATH,  '//*[@id="loginPanel"]/form/div[1]/input')
-    PASSWORD_INPUT   = (By.NAME, 'password')
-    LOGIN_BUTTON  = (By.CLASS_NAME, 'button')
+    USERNAME_INPUT = "xpath://*[@id='loginPanel']/form/div[1]/input"
+    PASSWORD_INPUT = "name:password"
+    LOGIN_BUTTON   = "class:button"
 
-    def login(self, username, password):
-        """
-        Realiza o login no sistema.
-
-        Args:
-            username (str): O nome de usuário.
-            password (str): A senha.
-        """
-        self.enter_text(self.USERNAME_INPUT, DATA['login'])
-        self.enter_text(self.PASSWORD_INPUT, DATA['password'])
+    def login(self, username=None, password=None):
+        """Realiza o login no sistema."""
+        u = username or DATA['login']
+        p = password or DATA['password']
+        
+        self.enter_text(self.USERNAME_INPUT, u)
+        self.enter_text(self.PASSWORD_INPUT, p)
         self.click(self.LOGIN_BUTTON)

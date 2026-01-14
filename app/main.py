@@ -1,15 +1,40 @@
 import pytest
 import os
+import sys
+from src.core.logger import log
 
-# Executa os testes
-exec_code = pytest.main()
+def run():
+    """
+    Ponto de entrada para execução do framework O-Actions.
+    """
+    log.info("Iniciando execução do O-Actions Framework...")
+    
+    # Define argumentos do pytest
+    args = [
+        "tests",
+        "--html=reports/report.html",
+        "--self-contained-html",
+        "-v"
+    ]
+    
+    # Permite passar argumentos extras via linha de comando
+    if len(sys.argv) > 1:
+        args.extend(sys.argv[1:])
 
-# Verifica se o relatório foi gerado
-if exec_code == 0:
-    print("Todos os testes passaram!")
-else:
-    print("Alguns testes falharam.")
+    # Garante que a pasta de reports existe
+    if not os.path.exists("reports"):
+        os.makedirs("reports")
 
-# Informa sobre o relatório gerado
-report_path = os.path.join(os.getcwd(), "report.html")
-print(f"Relatório de testes gerado em: {report_path}")
+    # Executa os testes
+    exit_code = pytest.main(args)
+
+    if exit_code == 0:
+        log.info("Execução finalizada com SUCESSO!")
+    else:
+        log.warning(f"Execução finalizada com alguns ERROS. Código de saída: {exit_code}")
+
+    log.info(f"Relatório visual gerado em: {os.path.abspath('reports/report.html')}")
+    return exit_code
+
+if __name__ == "__main__":
+    sys.exit(run())
