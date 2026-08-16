@@ -1,30 +1,25 @@
+"""Shared Page Object helpers."""
+
 from ..core.bot import ActionBot
-from ..core.logger import log
+
 
 class BasePage:
     def __init__(self, bot: ActionBot):
-        """
-        Inicializa a BasePage com o ActionBot.
-        """
         self.bot = bot
-        self.driver = bot.driver # Mantido para compatibilidade se necessário
 
-    def enter_text(self, locator, text):
-        """Insere texto em um campo."""
+    def enter_text(self, locator, text: str):
         self.bot.type(locator, text)
+        return self
 
     def click(self, locator):
-        """Clica em um elemento."""
         self.bot.click(locator)
+        return self
 
-    def wait_for_element(self, locator, timeout=None):
-        """Espera por um elemento."""
+    def wait_for_element(self, locator, timeout: int | None = None):
         return self.bot.find(locator, timeout=timeout)
 
-    def get_text(self, locator):
-        """Retorna o texto de um elemento."""
+    def get_text(self, locator) -> str:
         return self.bot.get_text(locator)
-    
-    def screenshot(self, prefix="page"):
-        """Captura uma screenshot."""
-        self.bot.screenshot(prefix)
+
+    def screenshot(self, prefix: str = "page") -> str:
+        return self.bot.screenshot(prefix)
