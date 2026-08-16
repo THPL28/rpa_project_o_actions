@@ -1,26 +1,31 @@
 import pytest
-import os
+
+from src.config import DEFAULT_TIMEOUT, HEADLESS
 from src.core.bot import ActionBot
-from src.config import HEADLESS, DEFAULT_TIMEOUT
+
 
 @pytest.fixture(scope="function")
 def bot():
-    """
-    Fixture que fornece uma instância do ActionBot para os testes.
-    """
+    """Provide an ActionBot instance and guarantee driver cleanup."""
     _bot = ActionBot(headless=HEADLESS, timeout=DEFAULT_TIMEOUT)
     yield _bot
     _bot.quit()
 
+
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):
-    # Executa o hook padrão
+    """Capture a screenshot when a UI test fails during its call phase."""
     outcome = yield
     report = outcome.get_result()
 
-    # Se o teste falhar, tira uma screenshot se o bot estiver disponível
-    if report.when == "call" and report.failed:
-        if "bot" in item.funcargs:
-            bot = item.funcargs["bot"]
-            screenshot_path = bot.screenshot(f"fail_{item.name}")
-            # Aqui poderíamos anexar ao report do pytest-html se configurado
+    if report.when != "call" or not report.failed:
+        return
+
+    bot = item.funcargs.get("bot")
+    if bot is None or getattr(bot, "driver", None) is None:
+        return
+
+    try:
+        bot.screenshot(f"fail_{item.name}")
+    except Exception as exc:  # pragma: no cover - diagnostic fallback
+        pytest.fail(f"Falha ao capturar screenshot do teste: {exc}", pytrace=False)
