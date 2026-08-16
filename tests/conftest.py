@@ -7,9 +7,11 @@ from src.core.bot import ActionBot
 @pytest.fixture(scope="function")
 def bot():
     """Provide an ActionBot instance and guarantee driver cleanup."""
-    _bot = ActionBot(headless=HEADLESS, timeout=DEFAULT_TIMEOUT)
-    yield _bot
-    _bot.quit()
+    browser = ActionBot(headless=HEADLESS, timeout=DEFAULT_TIMEOUT)
+    try:
+        yield browser
+    finally:
+        browser.quit()
 
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
@@ -21,11 +23,12 @@ def pytest_runtest_makereport(item, call):
     if report.when != "call" or not report.failed:
         return
 
-    bot = item.funcargs.get("bot")
-    if bot is None or getattr(bot, "driver", None) is None:
+    browser = item.funcargs.get("bot")
+    if browser is None or getattr(browser, "driver", None) is None:
         return
 
     try:
-        bot.screenshot(f"fail_{item.name}")
+        browser.screenshot(f"fail_{item.name}")
     except Exception as exc:  # pragma: no cover - diagnostic fallback
-        pytest.fail(f"Falha ao capturar screenshot do teste: {exc}", pytrace=False)
+        # Diagnostics must never hide the original test failure.
+        print(f"Aviso: não foi possível capturar screenshot: {exc}")
